@@ -190,7 +190,7 @@ class GenieDataModule(LightningDataModule):
 		dataset_info = {
 			'datadir': self.datadir,
 			'names': self._load_names(
-				os.path.join(self.rootdir, self.name, 'test.txt')
+				os.path.join(self.rootdir, self.name, 'index.txt')
 			)
 		}
 
