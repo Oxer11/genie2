@@ -1,0 +1,7 @@
+name ec
+
+dataDirectory /tmp/ec/pdbs
+numPairTransformLayers 5
+numEpoches 5
+batchSize 6
+motifProbability 0.0

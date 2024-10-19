@@ -169,10 +169,10 @@ class GenieDataset(Dataset):
 		if len(filepaths) > 0:
 			random.shuffle(filepaths)
 		else:
-			filepaths = sorted([
+			filepaths = [
 				os.path.join(dataset_info['datadir'], f'{name}.pdb')
 				for name in dataset_info['names']
-			])
+			]
 		return filepaths
 
 	def _update_motif_masks(self, np_features):
