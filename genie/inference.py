@@ -7,7 +7,7 @@ import torch
 from tqdm import tqdm
 
 from genie.config import Config
-from genie.utils.model_io import load_model
+from genie.utils.model_io import load_pretrained_model
 
 from genie.data.data_module import GenieDataModule
 
@@ -27,7 +27,7 @@ def main(args):
     )
 
     # Model
-    model = load_model(config.io['rootdir'], config.io['name'])
+    model = load_pretrained_model(config.io['rootdir'], config.io['name'], epoch=40)
 
     # Trainer
     trainer = Trainer(accelerator="gpu", devices=1)    
