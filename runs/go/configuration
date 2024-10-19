@@ -1,4 +1,4 @@
-name ec
+name go
 
 dataDirectory /tmp/go/pdbs
 numPairTransformLayers 5

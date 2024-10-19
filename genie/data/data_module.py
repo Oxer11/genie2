@@ -178,7 +178,7 @@ class GenieDataModule(LightningDataModule):
 			shuffle=True
 		)
 	
-	def test_dataloader(self):
+	def predict_dataloader(self):
 		"""
 		Set up dataloader for testing.
 
