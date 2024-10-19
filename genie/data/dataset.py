@@ -6,7 +6,8 @@ from torch.utils.data import Dataset
 
 from genie.utils.feat_utils import (
 	create_np_features_from_pdb,
-	pad_np_features
+	pad_np_features,
+	truncate_np_features
 )
 
 
@@ -132,6 +133,7 @@ class GenieDataset(Dataset):
 		if np.random.random() <= self.motif_prob:
 			np_features = self._update_motif_masks(np_features)
 
+		np_features = truncate_np_features(np_features, self.max_n_res)
 		# Pad
 		np_features = pad_np_features(
 			np_features,
@@ -164,7 +166,13 @@ class GenieDataset(Dataset):
 			os.path.join(dataset_info['datadir'], f'{name}.pdb.gz')
 			for name in dataset_info['names']
 		]
-		random.shuffle(filepaths)
+		if len(filepaths) > 0:
+			random.shuffle(filepaths)
+		else:
+			filepaths = sorted([
+				os.path.join(dataset_info['datadir'], f'{name}.pdb')
+				for name in dataset_info['names']
+			])
 		return filepaths
 
 	def _update_motif_masks(self, np_features):

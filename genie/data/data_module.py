@@ -177,6 +177,42 @@ class GenieDataModule(LightningDataModule):
 			batch_size=self.batch_size,
 			shuffle=True
 		)
+	
+	def test_dataloader(self):
+		"""
+		Set up dataloader for testing.
+
+		Returns:
+			An instance of torch.utils.data.DataLoader.
+		"""
+
+		# Create dataset information
+		dataset_info = {
+			'datadir': self.datadir,
+			'names': self._load_names(
+				os.path.join(self.rootdir, self.name, 'test.txt')
+			)
+		}
+
+		# Create dataset
+		dataset = GenieDataset(
+			dataset_info,
+			self.min_n_res,
+			self.max_n_res,
+			self.max_n_chain,
+			self.motif_prob,
+			self.motif_min_pct_res,
+			self.motif_max_pct_res,
+			self.motif_min_n_seg,
+			self.motif_max_n_seg,
+		)
+
+		# Create dataloader
+		return DataLoader(
+			dataset,
+			batch_size=self.batch_size,
+			shuffle=False
+		)
 
 	############################
 	###   Helper Functions   ###

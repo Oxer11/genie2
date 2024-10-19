@@ -122,7 +122,11 @@ class Denoiser(nn.Module):
 			structure_transition_dropout=structure_transition_dropout
 		)
 
-	def forward(self, ts, timesteps, features):
+	def mean_pool(self, s, mask):
+		s = (s * mask[:, None]).sum(dim=-2) / (mask.sum(dim=-1) + 1e-10)
+		return s
+
+	def forward(self, ts, timesteps, features, return_repr=False):
 		"""
 		Args:
 			ts:
@@ -179,10 +183,23 @@ class Denoiser(nn.Module):
 		if self.pair_transform_net is not None:
 			p = self.pair_transform_net(p, features)
 		states, ts = self.structure_net(s, p, ts, features)
+		"""
+		states:
+			[1 + num_strucutre_block * num_structure_layer, B, N, c_s]
+			intermediate single representations
+		"""
+		repr_dict = {}
+		for i in range(states.shape[0]):
+			repr = self.mean_pool(states[i], features['residue_mask'])
+			repr_dict[i] = repr.detach().cpu()
 
 		# Descale
 		ts = ts.scale_translation(1./self.rescale)
 
-		return {
-			'z': trans - ts.trans,
-		}
+		if return_repr:
+			repr_dict['z'] = trans - ts.trans
+			return repr_dict
+		else:
+			return {
+				'z': trans - ts.trans,
+			}

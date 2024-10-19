@@ -118,3 +118,23 @@ class Genie(DDPM):
 				self.log('unconditional_mse_loss', infill_losses[i], on_step=True, on_epoch=True)
 			
 		return weighted_loss
+
+	def predict_step(self, batch, batch_idx):
+		# Define features
+		features = prepare_tensor_features(batch)
+
+		# Sample time step
+		s = torch.zeros((features['atom_positions'].shape[0],), device=self.device)
+
+		# Apply noise
+		trans_s = features['atom_positions']
+		rots_s = compute_frenet_frames(
+			trans_s,
+			features['chain_index'],
+			features['residue_mask']
+		)
+		ts = T(rots_s, trans_s)
+
+		# Predict noise
+		output = self.model(ts, s, features, return_repr=True)
+		return output

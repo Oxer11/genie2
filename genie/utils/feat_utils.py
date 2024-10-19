@@ -189,6 +189,22 @@ def save_np_features_to_pdb(np_features, filepath):
 ###   Others   ###
 ##################
 
+def truncate_np_features(np_features, max_n_res):
+	num_residues = np_features['num_residues']
+	if num_residues <= max_n_res:
+		return np_features
+	else:
+		num_residues = max_n_res
+	for key in np_features:
+		if key == 'num_residues_per_chain':
+			np_features[key] = np_features[key].clip(a_max=max_n_res)
+		elif key == 'fixed_structure_mask':
+			np_features[key] = np_features[key][:max_n_res, :max_n_res]
+		elif not key.startswith('num'):
+			np_features[key] = np_features[key][:max_n_res]
+	return np_features
+
+
 def pad_np_features(np_features, max_n_chain, max_n_res):
 	"""
 	Pad values in a feature dictionary based on maximum number of chains and 
