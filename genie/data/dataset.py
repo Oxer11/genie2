@@ -127,6 +127,7 @@ class GenieDataset(Dataset):
         filepath = self.filepaths[idx]
 
         # Load features
+        print(filepath)
         np_features = create_np_features_from_pdb(filepath)
 
         # Update masks

@@ -1,3 +1,9 @@
+data/
+slurm-*
+runs/*/features/
+lightning_logs/
+results/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

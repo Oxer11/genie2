@@ -406,7 +406,7 @@ def parse_pdb(filepath):
                 restype_1 = RESTYPE_3_TO_1.get(restype_3, 'A')
                 restype_order = RESTYPE_ORDER[restype_1]
                 chain = line[21]
-                idx = len(line) - 81
+                idx = max(len(line) - 81, 0)
                 x = float(line[30+idx:38+idx])
                 y = float(line[38+idx:46+idx])
                 z = float(line[46+idx:54+idx])
