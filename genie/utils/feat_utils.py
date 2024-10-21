@@ -407,9 +407,15 @@ def parse_pdb(filepath):
                 restype_order = RESTYPE_ORDER[restype_1]
                 chain = line[21]
                 idx = max(len(line) - 81, 0)
-                x = float(line[30+idx:38+idx])
-                y = float(line[38+idx:46+idx])
-                z = float(line[46+idx:54+idx])
+                try:
+                    x = float(line[30+idx:38+idx])
+                    y = float(line[38+idx:46+idx])
+                    z = float(line[46+idx:54+idx])
+                except ValueError:
+                    idx += 1 
+                    x = float(line[30+idx:38+idx])
+                    y = float(line[38+idx:46+idx])
+                    z = float(line[46+idx:54+idx])
 
                 # Create data structure
                 if current_chain is None or chain != current_chain:
