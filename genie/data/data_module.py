@@ -36,7 +36,8 @@ class GenieDataModule(LightningDataModule):
 		motif_min_pct_res,
 		motif_max_pct_res,
 		motif_min_n_seg,
-		motif_max_n_seg
+		motif_max_n_seg,
+		include_seq=False,
 	):
 		"""
 		Initialize data module.
@@ -94,6 +95,7 @@ class GenieDataModule(LightningDataModule):
 		self.motif_max_pct_res = motif_max_pct_res
 		self.motif_min_n_seg = motif_min_n_seg
 		self.motif_max_n_seg = motif_max_n_seg
+		self.include_seq = include_seq
 
 
 	def setup(self, stage=None):
@@ -205,6 +207,7 @@ class GenieDataModule(LightningDataModule):
 			self.motif_max_pct_res,
 			self.motif_min_n_seg,
 			self.motif_max_n_seg,
+			self.include_seq
 		)
 
 		# Create dataloader

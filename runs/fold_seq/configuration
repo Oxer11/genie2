@@ -1,0 +1,8 @@
+name fold
+
+dataDirectory /tmp/fold/pdbs
+numPairTransformLayers 5
+numEpoches 5
+batchSize 6
+motifProbability 0.0
+includeSequence True

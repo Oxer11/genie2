@@ -31,6 +31,7 @@ class Config:
 			'motif_min_n_seg':                int(config.get('motifMinimumNumberSegments',              1)),
 			'motif_max_n_seg':                int(config.get('motifMaximumNumberSegments',              4)),
 
+            'include_seq':                	  config.get('includeSequence',              False),
 		}
 
 		self.diffusion = {

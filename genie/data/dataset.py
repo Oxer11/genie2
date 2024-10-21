@@ -28,6 +28,7 @@ class GenieDataset(Dataset):
         motif_max_pct_res,
         motif_min_n_seg,
         motif_max_n_seg,
+        include_seq=False,
     ):
         """
         Initialize dataset.
@@ -67,6 +68,7 @@ class GenieDataset(Dataset):
         self.motif_max_pct_res = motif_max_pct_res
         self.motif_min_n_seg = motif_min_n_seg
         self.motif_max_n_seg = motif_max_n_seg
+        self.include_seq = include_seq
 
         # Create filepaths
         self.filepaths = self._get_filepaths(dataset_info)
@@ -133,6 +135,9 @@ class GenieDataset(Dataset):
         # Update masks
         if np.random.random() <= self.motif_prob:
             np_features = self._update_motif_masks(np_features)
+            
+        if self.include_seq:
+            np_features['fixed_sequence_mask'] = 1
         
         np_features = truncate_np_features(np_features, self.max_n_res)
         # Pad
